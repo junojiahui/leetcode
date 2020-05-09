@@ -1,0 +1,30 @@
+/* solution 1 */
+
+class Solution {
+    public boolean isPalindrome(int x) {
+        if (x < 0) return false;
+        StringBuffer sb = new StringBuffer(Integer.toString(x));
+        sb.reverse();
+        if (Integer.toString(x).equals(sb.toString())) {
+            return true;
+        } else return false;
+    }
+}
+
+/* solution 2 */
+class Solution {
+    public boolean isPalindrome(int x) {
+        if (x < 0) return false;
+        int temp = 0;
+        int copy = x;
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
+            temp = temp * 10 + pop;
+        }
+        if (temp == copy) {
+            return true;
+        }
+        return false;
+    }
+}
