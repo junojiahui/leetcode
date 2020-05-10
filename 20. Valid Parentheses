@@ -1,0 +1,20 @@
+class Solution {
+    public boolean isValid(String s) {
+        if (s.length() % 2 != 0) return false;
+        HashMap<Character, Character> myMap = new HashMap<>();
+        myMap.put(')','(');
+        myMap.put('}', '{');
+        myMap.put(']', '[');
+        Stack<Character> myStack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (myMap.containsKey(c)) {
+                char first = myStack.empty() ? '#' : myStack.pop();
+                if (first != myMap.get(c)) return false;
+            } else {
+                myStack.push(c);
+            } 
+        }
+        return myStack.empty();
+    }
+}
