@@ -1,0 +1,41 @@
+/* Solution 1: recurssion */
+
+class Solution {
+    public int[] countBits(int num) {
+        int[] result = new int[num + 1];
+        for (int i = 0; i <= num; i++) {
+            result[i] = countBitsHelper(i,0);
+        }
+        return result;
+    }
+    
+    public int countBitsHelper(int num, int result) {
+        if (num == 0) return result;
+        if (num % 2 == 1) {
+            result++;
+        }
+        num = num / 2;
+        if (num == 1) {
+            return result + 1;
+        }
+        return countBitsHelper(num, result);
+    }
+}
+
+/* Solution 2: two pointers */
+
+class Solution {
+    public int[] countBits(int num) {
+        int[] result = new int[num + 1];
+        result[0] = 0;
+        int pow = 1;
+        for (int i = 1, j = 0; i <= num; i++, j++) {
+            if (i == pow) {
+                pow *= 2;
+                j = 0;
+            }
+            result[i] = result[j] + 1;
+        }
+        return result;
+    }
+}
