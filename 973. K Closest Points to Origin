@@ -1,0 +1,22 @@
+// Sorting array
+class Solution {
+    public int[][] kClosest(int[][] points, int K) {
+        int n = points.length;
+        int[] dist = new int[n];
+        for (int i = 0; i < n; i++) {
+            dist[i] = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+        }
+        Arrays.sort(dist);
+        int target = dist[K-1];
+        int[][] ans = new int[K][2];
+        int index = 0;
+        for (int i = 0; i < n; i++) {
+            if (points[i][0] * points[i][0] + points[i][1] * points[i][1] <= target) {
+                ans[index][0] = points[i][0];
+                ans[index][1] = points[i][1];
+                index++;
+            }
+        }
+        return ans;
+    }
+}
