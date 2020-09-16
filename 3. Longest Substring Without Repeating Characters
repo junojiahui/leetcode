@@ -1,0 +1,41 @@
+// Notes:
+// 1. Intuitively thinking about n^s substrings and check each one. O(n^3)
+// 2. For each lo, if find a duplicate hi, no need to go any further. O(n^2)
+// 3. For each duplicate hi, reset lo to the first available start point. O(n)
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length() == 0) {return 0;}
+        int max = 0;
+        for (int lo = 0; lo < s.length(); lo++) {
+            Set<Character> set = new HashSet<>();
+            int hi = lo;
+            while (hi < s.length() && !set.contains(s.charAt(hi))) {
+            // remember to check illegal express first
+                set.add(s.charAt(hi));
+                hi++;
+                max = Math.max(max, hi-lo);
+            } 
+        }
+    return max;
+    }
+}
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length() == 0) {return 0;}
+        int max = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int lo = 0, hi = 0; hi < s.length(); hi++) {
+            if (map.containsKey(s.charAt(hi))) {
+                lo = Math.max(map.get(s.charAt(hi)) + 1, lo);
+                // do not back lo to lower than current position
+                map.replace(s.charAt(hi), hi);
+            } else {
+                map.put(s.charAt(hi), hi);
+            }
+            max = Math.max(max, hi - lo + 1);
+        }
+    return max;
+    }
+}
