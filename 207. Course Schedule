@@ -1,0 +1,54 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        
+        // create indegree, outdegree
+        // take course => indegree of neighbours --, numCourses --
+        // indegree = 0 => can take this course
+        // use BFS
+        
+        // edge case
+        if (prerequisites == null || prerequisites.length == 0 || prerequisites[0].length == 0 ) {
+            return true;
+        }
+        
+        // set up
+        int[] indegree = new int[numCourses];
+        LinkedList<Integer> available = new LinkedList<>();
+        List<Integer>[] neighbors = new List[numCourses];
+        
+        for (int i = 0; i < numCourses; i++) {
+            neighbors[i] = new ArrayList<Integer>();
+        }
+        
+        for (int i = 0; i < prerequisites.length; i++) {
+            neighbors[prerequisites[i][1]].add(prerequisites[i][0]);
+        }
+        
+        for (int i = 0; i < numCourses; i++) {
+            List<Integer> postReqs = neighbors[i];
+            
+            for (int j : postReqs) {
+                indegree[j]++;
+            }
+        }
+        
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                available.add(i);
+            }
+        }
+        
+        while (available.size() != 0) {
+            int current = available.poll();
+            numCourses--;
+            for (int k : neighbors[current]) {
+                indegree[k]--;
+                if (indegree[k] == 0) {
+                    available.add(k);
+                }
+            }
+        }
+        
+        return numCourses == 0;
+    }
+}
