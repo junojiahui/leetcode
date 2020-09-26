@@ -1,0 +1,58 @@
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        
+        List<Integer> ans = new ArrayList<>();
+
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return ans;
+        }
+        //int row = matrix.length;
+        //int col = matrix[0].length;
+        
+        int firstRow = 0;
+        int lastRow = matrix.length - 1;
+        int firstCol = 0;
+        int lastCol = matrix[0].length - 1;
+        
+        while (firstRow <= lastRow && firstCol <= lastCol) {
+        
+            // remove first row
+            for (int i = firstCol; i <= lastCol; i++) {
+                ans.add(matrix[firstRow][i]);
+            }
+            firstRow++;
+            if (firstRow > lastRow) {
+                break;
+            }
+
+            // remove last col
+            for (int i = firstRow; i <= lastRow; i++) {
+                ans.add(matrix[i][lastCol]);
+            }
+            lastCol--;
+            if (lastCol < firstCol) {
+                break;
+            }
+
+            // remove last row
+            for (int i = lastCol; i >= firstCol; i--) {
+                ans.add(matrix[lastRow][i]);
+            }
+            lastRow--;
+            if (lastRow < firstRow) {
+                break;
+            }
+
+            // romove first col
+            for (int i = lastRow; i >= firstRow; i--) {
+                ans.add(matrix[i][firstCol]);
+            }
+            firstCol++;
+            // if (firstCol > lastCol) {
+            //     break;
+            // }
+            
+        }
+        return ans;
+    }
+}
