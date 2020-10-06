@@ -1,0 +1,48 @@
+// DFS
+// no need to record visited since we can tell from color (0 or !0)
+// coloring with 0(not visited), 1 and -1
+
+
+class Solution {
+    public boolean possibleBipartition(int N, int[][] dislikes) {
+        if (dislikes == null || dislikes.length == 0 || dislikes[0].length == 0) return true;
+        
+        HashMap<Integer, ArrayList<Integer>> myMap = new HashMap<>();
+        
+        // create adjacency map
+        for (int i = 0; i < dislikes.length; i++) {
+            for (int j = 0; j < 2; j++) {
+                if (myMap.containsKey(dislikes[i][j])) {
+                    myMap.get(dislikes[i][j]).add(dislikes[i][1-j]);
+                } else {
+                    ArrayList<Integer> mylist = new ArrayList<>();
+                    mylist.add(dislikes[i][1-j]);
+                    myMap.put(dislikes[i][j], mylist);
+                }
+            }
+        }
+        
+        int[] colors = new int[N+1];
+        for (int i = 0; i < dislikes.length; i++) {
+            for (int j = 0; j < 2; j++) {
+                int current = dislikes[i][j];
+                if (colors[current] == 0) {
+                    colors[current] = 1;
+                    if(!dfs(current, dislikes, colors, myMap)) return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    private Boolean dfs(int current, int[][] dislikes, int[] colors, HashMap<Integer, ArrayList<Integer>> myMap) {
+        for (int i : myMap.get(current)) {
+            if (colors[i] == colors[current]) return false;
+            if (colors[i] == 0) {
+                colors[i] = colors[current] * (-1);
+                dfs(i, dislikes, colors, myMap);
+            }
+        }
+        return true;
+    }
+}
